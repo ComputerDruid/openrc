@@ -27,6 +27,9 @@ do_unmount()
 		# we need to check the mount is still valid
 		mountinfo --quiet "$mnt" || continue
 
+		# Unescape special characters within mountpoint path
+		mnt="$(printf '%b' "$mnt")"
+
 		case "$cmd" in
 			umount)
 				ebegin "Unmounting $mnt"
