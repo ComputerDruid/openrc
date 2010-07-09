@@ -48,8 +48,10 @@ bonding_pre_start()
 
 	# Configure the bond.
 	# Nice and dynamic :)
-	for x in /sys/class/net/"${IFACE}"/bonding/*; do
+	local bondingpath=/sys/class/net/"${IFACE}"/bonding
+	for x in ${bondingpath}/*; do
 		[ -f "${x}" ] || continue
+		[ "${x}" == "${bondingpath}/slaves" ] && continue
 		n=${x##*/}
 		eval s=\$${n}_${IFVAR}
 		if [ -n "${s}" ]; then
